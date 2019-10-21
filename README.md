@@ -1,0 +1,2 @@
+# FAQ
+Schema FAQ
