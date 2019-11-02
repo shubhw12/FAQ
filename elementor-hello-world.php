@@ -61,6 +61,7 @@ final class Elementor_Hello_World {
 
 		// Init Plugin
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
+		add_action('wp_head' , array($this,'schema') );
 	}
 
 	/**
@@ -74,6 +75,25 @@ final class Elementor_Hello_World {
 	 */
 	public function i18n() {
 		load_plugin_textdomain( 'elementor-hello-world' );
+	}
+
+
+	/**
+	 * Load Textdomain
+	 *
+	 * Load plugin localization files.
+	 * Fired by `init` action hook.
+	 *
+	 * @since 1.2.0
+	 * @access public
+	 */
+	public function schema() {
+		?>
+		<script type="application/ld+json">
+						{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"gfh","acceptedAnswer":{"@type":"Answer","text":"fgh"}},{"@type":"Question","name":"fgh","acceptedAnswer":{"@type":"Answer","text":"fgh"}},{"@type":"Question","name":"fgh","acceptedAnswer":{"@type":"Answer","text":"fgh"}},{"@type":"Question","name":"","acceptedAnswer":{"@type":"Answer","text":""}}]}
+
+		</script>
+		<?php
 	}
 
 	/**

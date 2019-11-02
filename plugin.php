@@ -47,6 +47,7 @@ class Plugin {
 	 */
 	public function widget_scripts() {
 		wp_register_script( 'elementor-hello-world', plugins_url( '/assets/js/hello-world.js', __FILE__ ), [ 'jquery' ], false, true );
+		wp_register_style( 'elementor-hello-world-css', plugins_url( '/assets/css/hello-world.css', __FILE__ ), false, true );
 	}
 
 	/**
