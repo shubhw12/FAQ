@@ -118,6 +118,7 @@ class Hello_World extends Widget_Base {
 				'label' => __( 'Question', 'elementor-hello-world' ),
 				'type' => Controls_Manager::TEXT,
 				'label_block' => true,
+				'default' => 'Question',
 			]
 		);
 
@@ -128,6 +129,7 @@ class Hello_World extends Widget_Base {
 				'type' => Controls_Manager::WYSIWYG,
 				'default' => __( 'Accordion Content', 'elementor-hello-world' ),
 				'show_label' => true,
+				'default' => 'Answer',
 			]
 		);
 
@@ -179,15 +181,6 @@ class Hello_World extends Widget_Base {
 				],
 			]
 		);
-		$this->end_controls_section();
-
-		$this->start_controls_section(
-			'section_title_style',
-			[
-				'label' => __( 'Accordion', 'elementor-hello-world' ),
-				'tab' => Controls_Manager::TAB_STYLE,
-			]
-		);
 
 		$this->add_control(	
 			'icon_align',
@@ -209,6 +202,17 @@ class Hello_World extends Widget_Base {
 				'label_block' => false,
 			]
 		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'section_title_style',
+			[
+				'label' => __( 'Accordion', 'elementor-hello-world' ),
+				'tab' => Controls_Manager::TAB_STYLE,
+			]
+		);
+
 
 		$this->add_control(
 			'border_width',
@@ -235,9 +239,9 @@ class Hello_World extends Widget_Base {
 				'label' => __( 'Border Color', 'elementor' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-title.elementor-accordion-item' => 'border-color: {{VALUE}};',
-					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-title.elementor-accordion-item .elementor-tab-content' => 'border-top-color: {{VALUE}};',
-					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-title.elementor-accordion-item .elementor-tab-title.elementor-active' => 'border-bottom-color: {{VALUE}};',
+					'{{WRAPPER}} .uael-faq-accordion' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .uael-faq-accordion' => 'border-top-color: {{VALUE}};',
+					'{{WRAPPER}} .uael-faq-accordion' => 'border-bottom-color: {{VALUE}};',
 				],
 			]
 		);
@@ -253,12 +257,167 @@ class Hello_World extends Widget_Base {
 		);
 
 		$this->add_control(
-			'title_background',
+			'uael-title_background',
 			[
 				'label' => __( 'Background', 'elementor' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-title' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'uael-title_color',
+			[
+				'label' => __( 'Color', 'elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-title' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Scheme_Color::get_type(),
+					'value' => Scheme_Color::COLOR_1,
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'title_typography',
+				'selector' => '{{WRAPPER}} .uael-faq-accordion .uael-accordion-title',
+				'scheme' => Scheme_Typography::TYPOGRAPHY_1,
+			]
+		);
+
+		$this->add_responsive_control(
+			'title_padding',
+			[
+				'label' => __( 'Padding', 'elementor' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'uael-content-style',
+			[
+				'label' => __( 'Content', 'elementor-hello-world' ),
+				'tab' => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_control(
+			'uael-content-background',
+			[
+				'label' => __( 'Background', 'elementor-hello-world' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'background-color: {{VALUE}};',
+				],
+				'default' => '#ffffff',
+			]
+		);
+
+		$this->add_control(
+			'icon_color',
+			[
+				'label' => __( 'Color', 'elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .elementor-accordion .elementor-tab-title .elementor-accordion-icon svg' => 'fill: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'content_typography',
+				'selector' => '{{WRAPPER}} .uael-faq-accordion .uael-accordion-content',
+				'scheme' => Scheme_Typography::TYPOGRAPHY_3,
+			]
+		);
+
+		$this->add_responsive_control(
+			'uael-content-padding',
+			[
+				'label' => __( 'Padding', 'elementor' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'uael-icon-style',
+			[
+				'label' => __( 'Icon', 'elementor-hello-world' ),
+				'tab' => Controls_Manager::TAB_STYLE,
+			]
+		);
+		
+		$this->add_control(
+			'icon_align',
+			[
+				'label' => __( 'Alignment', 'elementor' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => __( 'Start', 'elementor' ),
+						'icon' => 'eicon-h-align-left',
+					],
+					'right' => [
+						'title' => __( 'End', 'elementor' ),
+						'icon' => 'eicon-h-align-right',
+					],
+				],
+				'default' => is_rtl() ? 'right' : 'left',
+				'toggle' => false,
+				'label_block' => false,
+			]
+		);
+
+		$this->add_control(
+			'icon_color',
+			[
+				'label' => __( 'Color', 'elementor' ),
+				'type' => Controls_Manager::COLOR,
+				// 'selectors' => [
+				// 	'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'color: {{VALUE}};',
+				// 	'{{WRAPPER}} .elementor-accordion .elementor-tab-title .elementor-accordion-icon svg' => 'fill: {{VALUE}};',
+				// ],
+			]
+		);
+
+		$this->add_control(
+			'icon_active_color',
+			[
+				'label' => __( 'Active Color', 'elementor' ),
+				'type' => Controls_Manager::COLOR,
+			]
+		);
+
+		$this->add_responsive_control(
+			'icon_space',
+			[
+				'label' => __( 'Spacing', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'range' => [	
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+					],
 				],
 			]
 		);
@@ -292,10 +451,11 @@ class Hello_World extends Widget_Base {
 								<span class="elementor-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['selected_icon'] ); ?></span>
 								<span class="elementor-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['selected_active_icon'] ); ?></span>
 							</span>
+							</div>	
 									<div class="uael-accordion-content">
 										<?php echo $key['answer'];?>
 									</div>
-								</div>	
+								
 							</div>
 						<?php } ?>
 						</div>
