@@ -226,12 +226,10 @@ class Hello_World extends Widget_Base {
 					],
 				],
 				'selectors' => [
-					// '{{WRAPPER}} .uael-faq-wrapper .uael-faq-container .uael-faq-accordion' => 'border-bottom-color',
-					// '{{WRAPPER}} .uael-faq-container.uael-faq-accordion' => 'border-width: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title' => 'border-style: solid; border-width: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title.uael-title-active' => 'border-style: solid; border-width: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-content' => 'border-style: solid; border-left: {{SIZE}}{{UNIT}} ; border-right: {{SIZE}}{{UNIT}} ;',
-				],
+					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion' => 'border-style: solid; border-width:{{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} 0px {{SIZE}}{{UNIT}} ;',
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'border-style: solid; border-top-width: {{SIZE}}{{UNIT}} ;',
+					'{{WRAPPER}} .uael-faq-container:last-child' => 'border-style: solid; border-bottom: {{SIZE}}{{UNIT}} solid;',
+				],	
 			]
 		);
 
@@ -241,10 +239,18 @@ class Hello_World extends Widget_Base {
 				'label' => __( 'Border Color', 'elementor-hello-world' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title.uael-title-active' => 'border-color: {{VALUE}};',
-					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title' => 'border-color: {{VALUE}};',
-					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-content' => 'border-style:solid;border-color: {{VALUE}};',
-					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-content'=> 'border-color:{{VALUE}};border-color: {{VALUE}};',
+
+
+					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .uael-faq-container:last-child' => 'border-color: {{VALUE}};',
+
+
+
+					// '{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title.uael-title-active' => 'border-color: {{VALUE}};',
+					// '{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title' => 'border-color: {{VALUE}};',
+					// '{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-content' => 'border-style:solid;border-color: {{VALUE}};',
+					// '{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-content'=> 'border-color:{{VALUE}};border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -453,7 +459,8 @@ class Hello_World extends Widget_Base {
 	 * @access protected
 	 */
 	protected function render() {
-			$settings = $this->get_settings_for_display();?>
+			$settings = $this->get_settings_for_display();
+			var_dump($settings['icon_align']);?>
 			<script type="text/javascript">
 					jQuery('.uael-accordion-content').attr('style', 'display:none');
 			</script>
@@ -463,10 +470,9 @@ class Hello_World extends Widget_Base {
 							<div class="uael-faq-accordion">
 								<div class="uael-accordion-title">
 									<?php echo $key['question'];?>
-									<!-- elementor-accordion-icon elementor-accordion-icon-left -->
-							<span class="elementor-accordion-icon elementor-accordion-icon-<?php echo esc_attr( $settings['icon_align'] ); ?>" aria-hidden="true">
-								<span class="elementor-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['selected_icon'] ); ?></span>
-								<span class="elementor-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['selected_active_icon'] ); ?></span>
+							<span class="uael-accordion-icon uael-accordion-icon-<?php echo esc_attr( $settings['icon_align'] ); ?>" >
+								<span class="uael-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['selected_icon'] ); ?></span>
+								<span class="uael-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['selected_active_icon'] ); ?></span>
 							</span>
 								</div>
 								<div class="uael-accordion-content">

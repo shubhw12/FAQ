@@ -9,13 +9,18 @@
 		$('.uael-accordion-content').attr('style', 'display:none');
 		$('.uael-accordion-title').click(function(){
 			 console.log('hi');
-		    $(this).next('.uael-accordion-content').slideToggle('slow','swing',
+		    $(this).next('.uael-accordion-content').slideToggle('fast','swing',
 		    	function(){
 			    		if( $(this).prev().hasClass('uael-title-active') ){
 							$(this).prev().removeClass('uael-title-active');
+							$(this).prev().find(".uael-accordion-icon").children('.uael-accordion-icon-opened').attr('style','display:none');
+							$(this).prev().find(".uael-accordion-icon").children('.uael-accordion-icon-closed').attr('style','display:block');
 			    		}
 			    		else{
 			    			$(this).prev().addClass('uael-title-active');
+			    			$(this).prev().find(".uael-accordion-icon").children('.uael-accordion-icon-opened').attr('style','display:block');
+			    			$(this).prev().find(".uael-accordion-icon").children('.uael-accordion-icon-closed').attr('style','display:none');
+			    			
 			    		}
 		    	    }	
 		    	);

@@ -1,7 +1,11 @@
-span.elementor-accordion-icon.elementor-accordion-icon-left {
-    float: left;
+span.uael-accordion-icon-left{
+	float:left;
 }
 
-.uael-accordion-title.elementor-accordion-item {
-    border: 1px solid #d4d4d4;
+span.uael-accordion-icon-right{
+	float:right;
+}
+
+.uael-accordion-icon-opened{
+	display: none;
 }
