@@ -204,7 +204,7 @@ class Hello_World extends Widget_Base {
 		);
 
 		$this->add_control(
-			'faq-layout',
+			'faq_layout',
 				array(
 					'label'   => __( 'Layout', 'elementor-hello-world' ),
 					'type'    => Controls_Manager::SELECT,
@@ -246,8 +246,14 @@ class Hello_World extends Widget_Base {
 					'size' => 10,
 				],
 				'condition' => [
-					'faq-layout' => 'grid',
+					'faq_layout' => 'grid',
 				],
+				'selectors' => [
+					'{{WRAPPER}}:not(.elementor-grid-0) .elementor-grid' => 'grid-column-gap: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}}.elementor-grid-0 .elementor-share-btn' => 'margin-right: calc({{SIZE}}{{UNIT}} / 2); margin-left: calc({{SIZE}}{{UNIT}} / 2)',
+					'{{WRAPPER}}.elementor-grid-0 .elementor-grid' => 'margin-right: calc(-{{SIZE}}{{UNIT}} / 2); margin-left: calc(-{{SIZE}}{{UNIT}} / 2)',
+				],
+
 			]
 		);
 
@@ -260,7 +266,7 @@ class Hello_World extends Widget_Base {
 					'size' => 10,
 				],
 				'condition' => [
-					'faq-layout' => 'grid',
+					'faq_layout' => 'grid',
 				],				
 			]
 		);
@@ -301,7 +307,8 @@ class Hello_World extends Widget_Base {
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion' => 'border-color: {{VALUE}};',
-					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'border-top-color: {{VALUE}};',
+					// '{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title-content' => 'border-top-color: {{VALUE}};',
 					'{{WRAPPER}} .uael-faq-container:last-child' => 'border-color: {{VALUE}};',	
 				],
 			]
@@ -514,11 +521,11 @@ class Hello_World extends Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		var_dump($settings['faq-layout']);
+		
 
 		$id_int		= substr( $this->get_id_int(), 0, 3 );
 
-		// if("grid" === $settings['faq-layout']){
+		// if("grid" === $settings['faq_layout']){
 
 		// 	$this->add_render_attribute( $uael_faq_wrapper, [
 		// 		'id'                => 'uael-accordion-wrapper-' . $id_int ,
@@ -537,12 +544,12 @@ class Hello_World extends Widget_Base {
 			<script type="text/javascript">
 					jQuery('.uael-accordion-content').attr('style', 'display:none');
 			</script>
-					<div class='uael-faq-wrapper-<?php echo $id_int ?>'>
-						<div class='uael-faq-container <?php if("grid" === $settings['faq-layout']){ echo "elementor-grid";}  ?>' >
+					<div id='uael-faq-wrapper-<?php echo $id_int ?>' class='uael-faq-wrapper'>
+						<div class='uael-faq-container <?php if("grid" === $settings['faq_layout']){ echo "elementor-grid";}  ?>' >
 					<?php foreach ($settings['tabs'] as $key ) {
 
 						$tab_title_setting_key = $this->get_repeater_setting_key( 'question', 'tabs', $key );
-						if("grid" === $settings['faq-layout']){
+						if("grid" === $settings['faq_layout']){
 							$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
 								'id'                => 'uael-accordion-accordion-' . $id_int ,
 								'class'             => ['uael-faq-accordion','elementor-grid-item'],
@@ -608,12 +615,43 @@ class Hello_World extends Widget_Base {
 	 */
 	protected function _content_template() {
 		?>
-		<div class="title">
-			{{{ settings.title }}}
-		</div>
-		<# 
-			console.log(settings.tabs);
-		#>
+		<!-- $id_int		= get_id_int().substr( 0, 3 );  -->
+		<# var id_int = view.getIDInt().toString().substr( 0, 3 );
+		console.log(settings.tabs); #>
+		<div id='uael-faq-wrapper-{{ id_int }}' class='uael-faq-wrapper'>
+								<div class='uael-faq-container <# if("grid" === settings.faq_layout){  {{{"elementor-grid"}}} } #>' >
+							<# _.each( settings.tabs ,function( key, index )  {
+
+								if("grid" == settings.faq_layout){
+									view.addRenderAttribute( 'uael_faq_accordion' + key._id, {
+										'id': 'uael-accordion-accordion-' + id_int ,
+										'class': ['uael-faq-accordion','elementor-grid-item']
+									} );
+								}else{
+									view.addRenderAttribute( 'uael_faq_accordion'+ key._id, {
+										'id':'uael-accordion-accordion-' + id_int ,
+										'class':'uael-faq-accordion'
+									} );
+								}
+									#><div {{{ view.getRenderAttributeString( 'uael_faq_accordion' + key._id ) }}}>
+										<div class="uael-accordion-title">
+											{{{ key.question }}}
+									<span class="uael-accordion-icon uael-accordion-icon-{{ settings.icon_align }}" >
+										<span class="uael-accordion-icon-closed"> <# {{{ settings.selected_icon }}} #> </span>
+										<span class="uael-accordion-icon-opened"> <# {{{ settings.selected_active_icon }}} #> </span>
+									</span>
+										</div>
+										<div class="uael-accordion-content">
+											{{{ key.answer }}}
+										</div>
+
+									</div>
+								<# } ); #>
+								</div>
+							</div>
+
+			
+
 		<?php
 	}
 }
