@@ -9,3 +9,7 @@ span.uael-accordion-icon-right{
 .uael-accordion-icon-opened{
 	display: none;
 }
+
+.uael-faq-container:last-child.elementor-grid-item{
+	border-bottom: none;
+}

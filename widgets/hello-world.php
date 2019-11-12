@@ -153,57 +153,6 @@ class Hello_World extends Widget_Base {
 		);
 
 		$this->add_control(
-			'selected_icon',
-			[
-				'label' => __( 'Icon', 'elementor-hello-world' ),
-				'type' => Controls_Manager::ICONS,
-				'separator' => 'before',
-				'fa4compatibility' => 'icon',
-				'default' => [
-					'value' => 'fas fa-plus',
-					'library' => 'fa-solid',
-				],
-			]
-		);
-
-		$this->add_control(
-			'selected_active_icon',
-			[
-				'label' => __( 'Active Icon', 'elementor-hello-world' ),
-				'type' => Controls_Manager::ICONS,
-				'fa4compatibility' => 'icon_active',
-				'default' => [
-					'value' => 'fas fa-minus',
-					'library' => 'fa-solid',
-				],
-				'condition' => [
-					'selected_icon[value]!' => '',
-				],
-			]
-		);
-
-		$this->add_control(	
-			'icon_align',
-			[
-				'label' => __( 'Alignment', 'elementor-hello-world' ),
-				'type' => Controls_Manager::CHOOSE,
-				'options' => [
-					'left' => [
-						'title' => __( 'Start', 'elementor-hello-world' ),
-						'icon' => 'eicon-h-align-left',
-					],
-					'right' => [
-						'title' => __( 'End', 'elementor-hello-world' ),
-						'icon' => 'eicon-h-align-right',
-					],
-				],
-				'default' => is_rtl() ? 'right' : 'left',
-				'toggle' => false,
-				'label_block' => false,
-			]
-		);
-
-		$this->add_control(
 			'faq_layout',
 				array(
 					'label'   => __( 'Layout', 'elementor-hello-world' ),
@@ -224,10 +173,9 @@ class Hello_World extends Widget_Base {
 			[
 				'label' => __( 'Columns', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
-				'default' => '0',
+				'default' => '1',
 				'options' => [
-					'0' => 'Auto',
-					'1' => '1',
+					'1' => 'Auto',
 					'2' => '2',
 					'3' => '3',
 					'4' => '4',
@@ -235,6 +183,9 @@ class Hello_World extends Widget_Base {
 					'6' => '6',
 				],
 				'prefix_class' => 'elementor-grid%s-',
+				'condition' => [
+					'faq_layout' => 'grid',
+				],
 			]
 		);
 		$this->add_responsive_control(
@@ -250,7 +201,7 @@ class Hello_World extends Widget_Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}}:not(.elementor-grid-0) .elementor-grid' => 'grid-column-gap: {{SIZE}}{{UNIT}}',
-					'{{WRAPPER}}.elementor-grid-0 .elementor-share-btn' => 'margin-right: calc({{SIZE}}{{UNIT}} / 2); margin-left: calc({{SIZE}}{{UNIT}} / 2)',
+					'{{WRAPPER}}.elementor-grid-0 .uael-faq-accordion' => 'margin-right: calc({{SIZE}}{{UNIT}} / 2); margin-left: calc({{SIZE}}{{UNIT}} / 2)',
 					'{{WRAPPER}}.elementor-grid-0 .elementor-grid' => 'margin-right: calc(-{{SIZE}}{{UNIT}} / 2); margin-left: calc(-{{SIZE}}{{UNIT}} / 2)',
 				],
 
@@ -267,6 +218,13 @@ class Hello_World extends Widget_Base {
 				],
 				'condition' => [
 					'faq_layout' => 'grid',
+				],
+
+				'selectors' => [
+					'{{WRAPPER}}:not(.elementor-grid-0) .elementor-grid' => 'grid-row-gap: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}}.elementor-grid-0 .uael-faq-accordion' => 'margin-bottom: {{SIZE}}{{UNIT}}',
+					'(tablet) {{WRAPPER}}.elementor-grid-tablet-0 .elementor-share-btn' => 'margin-bottom: {{SIZE}}{{UNIT}}',
+					'(mobile) {{WRAPPER}}.elementor-grid-mobile-0 .elementor-share-btn' => 'margin-bottom: {{SIZE}}{{UNIT}}',
 				],				
 			]
 		);
@@ -294,8 +252,9 @@ class Hello_World extends Widget_Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion' => 'border-style: solid; border-width:{{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} 0px {{SIZE}}{{UNIT}} ;',
+					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion.elementor-grid-item' => 'border-style: solid; border-width:{{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} ;',
 					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'border-style: solid; border-top-width: {{SIZE}}{{UNIT}} ;',
-					'{{WRAPPER}} .uael-faq-container:last-child' => 'border-style: solid; border-bottom: {{SIZE}}{{UNIT}} solid;',
+					'{{WRAPPER}} .uael-faq-container:last-child' => 'border-bottom: {{SIZE}}{{UNIT}} solid;',
 				],	
 			]
 		);
@@ -308,7 +267,6 @@ class Hello_World extends Widget_Base {
 				'selectors' => [
 					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion' => 'border-color: {{VALUE}};',
 					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'border-top-color: {{VALUE}};',
-					// '{{WRAPPER}} .uael-faq-container .uael-faq-accordion .uael-accordion-title-content' => 'border-top-color: {{VALUE}};',
 					'{{WRAPPER}} .uael-faq-container:last-child' => 'border-color: {{VALUE}};',	
 				],
 			]
@@ -407,18 +365,6 @@ class Hello_World extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'icon_color',
-			[
-				'label' => __( 'Color', 'elementor' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'color: {{VALUE}};',
-					'{{WRAPPER}} .elementor-accordion .elementor-tab-title .elementor-accordion-icon svg' => 'fill: {{VALUE}};',
-				],
-			]
-		);
-
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
@@ -450,18 +396,48 @@ class Hello_World extends Widget_Base {
 			]
 		);
 		
+				$this->add_control(
+			'selected_icon',
+			[
+				'label' => __( 'Icon', 'elementor-hello-world' ),
+				'type' => Controls_Manager::ICONS,
+				'separator' => 'before',
+				'fa4compatibility' => 'icon',
+				'default' => [
+					'value' => 'fas fa-plus',
+					'library' => 'fa-solid',
+				],
+			]
+		);
+
 		$this->add_control(
+			'selected_active_icon',
+			[
+				'label' => __( 'Active Icon', 'elementor-hello-world' ),
+				'type' => Controls_Manager::ICONS,
+				'fa4compatibility' => 'icon_active',
+				'default' => [
+					'value' => 'fas fa-minus',
+					'library' => 'fa-solid',
+				],
+				'condition' => [
+					'selected_icon[value]!' => '',
+				],
+			]
+		);
+
+		$this->add_control(	
 			'icon_align',
 			[
-				'label' => __( 'Alignment', 'elementor' ),
+				'label' => __( 'Alignment', 'elementor-hello-world' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Start', 'elementor' ),
+						'title' => __( 'Start', 'elementor-hello-world' ),
 						'icon' => 'eicon-h-align-left',
 					],
 					'right' => [
-						'title' => __( 'End', 'elementor' ),
+						'title' => __( 'End', 'elementor-hello-world' ),
 						'icon' => 'eicon-h-align-right',
 					],
 				],
@@ -471,35 +447,45 @@ class Hello_World extends Widget_Base {
 			]
 		);
 
+
 		$this->add_control(
 			'icon_color',
 			[
-				'label' => __( 'Color', 'elementor' ),
+				'label' => __( 'Color', 'elementor-hello-world' ),
 				'type' => Controls_Manager::COLOR,
-				// 'selectors' => [
-				// 	'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'color: {{VALUE}};',
-				// ],
+				'selectors' => ['
+				{{WRAPPER}}  .uael-accordion-icon-closed' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .uael-accordion-icon-closed' => 'fill: {{VALUE}};',
+				],
 			]
 		);
 
 		$this->add_control(
-			'icon_active_color',
+			'uael_icon_active_color',
 			[
-				'label' => __( 'Active Color', 'elementor' ),
+				'label' => __( 'Active Color', 'elementor-hello-world' ),
 				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+				'{{WRAPPER}}  .uael-accordion-icon-opened' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .uael-accordion-icon-opened' => 'fill: {{VALUE}};',
+				],
 			]
 		);
 
 		$this->add_responsive_control(
-			'icon_space',
+			'uael_icon_space',
 			[
-				'label' => __( 'Spacing', 'elementor' ),
+				'label' => __( 'Spacing', 'elementor-hello-world' ),
 				'type' => Controls_Manager::SLIDER,
 				'range' => [	
 					'px' => [
 						'min' => 0,
 						'max' => 100,
 					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .uael-accordion-icon.uael-accordion-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .uael-accordion-icon.uael-accordion-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -520,63 +506,55 @@ class Hello_World extends Widget_Base {
 	protected function render() {
 
 		$settings = $this->get_settings_for_display();
-
-		
-
 		$id_int		= substr( $this->get_id_int(), 0, 3 );
+		$this->add_render_attribute( 'uael-faq-container', 'class', 'uael-faq-container' );	
+		if("grid" === $settings['faq_layout']){ 
 
-		// if("grid" === $settings['faq_layout']){
+			$this->add_render_attribute( 'uael-faq-container', 'class', 'elementor-grid' );
 
-		// 	$this->add_render_attribute( $uael_faq_wrapper, [
-		// 		'id'                => 'uael-accordion-wrapper-' . $id_int ,
-		// 		'class'             => ['uael-faq-wrapper','elementor-grid'],
-		// 	] );
+		}
+		else if('accordion' === $settings['faq_layout']){
 
-		// }else{
+			$this->add_render_attribute( 'uael-faq-container', 'data-attribute', 'accordion' );
+		}
+		?>
+			<div id='uael-faq-wrapper-<?php echo $id_int ?>' class='uael-faq-wrapper'>
+				<div <?php echo $this->get_render_attribute_string( 'uael-faq-container' ); ?> >
+				<?php foreach ($settings['tabs'] as $key ) {
 
-		// 	$this->add_render_attribute( $uael_faq_wrapper, [
-		// 		'id'                => 'uael-accordion-wrapper-' . $id_int ,
-		// 		'class'             => 'uael-faq-wrapper',
-		// 	] );
-		// }		
-			
-			?>
-			<script type="text/javascript">
-					jQuery('.uael-accordion-content').attr('style', 'display:none');
-			</script>
-					<div id='uael-faq-wrapper-<?php echo $id_int ?>' class='uael-faq-wrapper'>
-						<div class='uael-faq-container <?php if("grid" === $settings['faq_layout']){ echo "elementor-grid";}  ?>' >
-					<?php foreach ($settings['tabs'] as $key ) {
+					$tab_title_setting_key = $this->get_repeater_setting_key( 'question', 'tabs', $key );
 
-						$tab_title_setting_key = $this->get_repeater_setting_key( 'question', 'tabs', $key );
-						if("grid" === $settings['faq_layout']){
-							$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
-								'id'                => 'uael-accordion-accordion-' . $id_int ,
-								'class'             => ['uael-faq-accordion','elementor-grid-item'],
-							] );
-						}else{
-							$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
-								'id'                => 'uael-accordion-accordion-' . $id_int ,
-								'class'             => 'uael-faq-accordion',
-							] );
-						}
-			?>
-							<div <?php echo $this->get_render_attribute_string($uael_faq_accordion.$key['_id']); ?>>
-								<div class="uael-accordion-title">
-									<?php echo $key['question'];?>
-							<span class="uael-accordion-icon uael-accordion-icon-<?php echo esc_attr( $settings['icon_align'] ); ?>" >
-								<span class="uael-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['selected_icon'] ); ?></span>
-								<span class="uael-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['selected_active_icon'] ); ?></span>
-							</span>
-								</div>
-								<div class="uael-accordion-content">
-									<?php echo $key['answer'];?>
-								</div>
+					if("grid" === $settings['faq_layout']){
+						
+						$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
+							'id'                => 'uael-accordion-accordion-' . $id_int ,
+							'class'             => ['uael-faq-accordion','elementor-grid-item'],
+						] );
 
-							</div>
-						<?php } ?>
-						</div>
+					}else{
+
+						$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
+							'id'                => 'uael-accordion-accordion-' . $id_int ,
+							'class'             => 'uael-faq-accordion',
+						] );
+
+					}?>
+
+				<div <?php echo $this->get_render_attribute_string($uael_faq_accordion.$key['_id']); ?>>
+					<div class="uael-accordion-title">
+								<?php echo $key['question'];?>
+						<span class="uael-accordion-icon uael-accordion-icon-<?php echo esc_attr( $settings['icon_align'] ); ?>" >
+							<span class="uael-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['selected_icon'] ); ?></span>
+							<span class="uael-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['selected_active_icon'] ); ?></span>
+						</span>
 					</div>
+					<div class="uael-accordion-content">
+						<?php echo $key['answer'];?>
+					</div>
+				</div>
+			<?php } ?>
+			</div>
+		</div>
 			<?php
 			//schema logic
 			$object_data = array();
@@ -617,9 +595,16 @@ class Hello_World extends Widget_Base {
 		?>
 		<!-- $id_int		= get_id_int().substr( 0, 3 );  -->
 		<# var id_int = view.getIDInt().toString().substr( 0, 3 );
-		console.log(settings.tabs); #>
+		console.log(settings.tabs); 
+		view.addRenderAttribute( 'uael-faq-container' , 'class' , 'uael-faq-container'  );
+		if( 'grid' === settings.faq_layout){
+			view.addRenderAttribute( 'uael-faq-container' , 'class' , 'elementor-grid'  );
+		}
+		iconclosed = elementor.helpers.renderIcon( view, settings.selected_icon, {}, 'i' , 'object' ),
+		iconactive = elementor.helpers.renderIcon( view, settings.selected_active_icon, {}, 'i' , 'object' ),		
+		#>
 		<div id='uael-faq-wrapper-{{ id_int }}' class='uael-faq-wrapper'>
-								<div class='uael-faq-container <# if("grid" === settings.faq_layout){  {{{"elementor-grid"}}} } #>' >
+								<div {{{ view.getRenderAttributeString( 'uael-faq-container' ) }}} >
 							<# _.each( settings.tabs ,function( key, index )  {
 
 								if("grid" == settings.faq_layout){
@@ -637,8 +622,8 @@ class Hello_World extends Widget_Base {
 										<div class="uael-accordion-title">
 											{{{ key.question }}}
 									<span class="uael-accordion-icon uael-accordion-icon-{{ settings.icon_align }}" >
-										<span class="uael-accordion-icon-closed"> <# {{{ settings.selected_icon }}} #> </span>
-										<span class="uael-accordion-icon-opened"> <# {{{ settings.selected_active_icon }}} #> </span>
+										<span class="uael-accordion-icon-closed"> {{{ iconclosed.value }}}  </span>
+										<span class="uael-accordion-icon-opened"> {{{ iconactive.value }}}  </span>
 									</span>
 										</div>
 										<div class="uael-accordion-content">
