@@ -164,6 +164,7 @@ class Hello_World extends Widget_Base {
 					'toggle' => __( 'Toggle', 'elementor-hello-world' ),
 					
 				),
+					'prefix_class' => 'uael-faq-layout-'
 			)
 		);
 
@@ -255,6 +256,8 @@ class Hello_World extends Widget_Base {
 					'{{WRAPPER}} .uael-faq-container .uael-faq-accordion.elementor-grid-item' => 'border-style: solid; border-width:{{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} {{SIZE}}{{UNIT}} ;',
 					'{{WRAPPER}} .uael-faq-accordion .uael-accordion-content' => 'border-style: solid; border-top-width: {{SIZE}}{{UNIT}} ;',
 					'{{WRAPPER}} .uael-faq-container:last-child' => 'border-bottom: {{SIZE}}{{UNIT}} solid;',
+					'{{WRAPPER}}.uael-faq-layout-grid .uael-faq-container:last-child' => 'border-bottom: 0px;',	
+
 				],	
 			]
 		);
@@ -517,44 +520,48 @@ class Hello_World extends Widget_Base {
 
 			$this->add_render_attribute( 'uael-faq-container', 'data-attribute', 'accordion' );
 		}
+		else if('toggle' === $settings['faq_layout']){
+
+			$this->add_render_attribute( 'uael-faq-container', 'data-attribute', 'toggle' );
+		}
 		?>
 			<div id='uael-faq-wrapper-<?php echo $id_int ?>' class='uael-faq-wrapper'>
 				<div <?php echo $this->get_render_attribute_string( 'uael-faq-container' ); ?> >
-				<?php foreach ($settings['tabs'] as $key ) {
+					<?php foreach ($settings['tabs'] as $key ) {
 
-					$tab_title_setting_key = $this->get_repeater_setting_key( 'question', 'tabs', $key );
+						$tab_title_setting_key = $this->get_repeater_setting_key( 'question', 'tabs', $key );
 
-					if("grid" === $settings['faq_layout']){
-						
-						$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
-							'id'                => 'uael-accordion-accordion-' . $id_int ,
-							'class'             => ['uael-faq-accordion','elementor-grid-item'],
-						] );
+						if("grid" === $settings['faq_layout']){
+							
+							$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
+								'id'                => 'uael-accordion-accordion-' . $id_int ,
+								'class'             => ['uael-faq-accordion','elementor-grid-item'],
+							] );
 
-					}else{
+						}else{
 
-						$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
-							'id'                => 'uael-accordion-accordion-' . $id_int ,
-							'class'             => 'uael-faq-accordion',
-						] );
+							$this->add_render_attribute( $uael_faq_accordion.$key['_id'], [
+								'id'                => 'uael-accordion-accordion-' . $id_int ,
+								'class'             => 'uael-faq-accordion',
+							] );
 
-					}?>
+						}?>
 
-				<div <?php echo $this->get_render_attribute_string($uael_faq_accordion.$key['_id']); ?>>
-					<div class="uael-accordion-title">
-								<?php echo $key['question'];?>
-						<span class="uael-accordion-icon uael-accordion-icon-<?php echo esc_attr( $settings['icon_align'] ); ?>" >
-							<span class="uael-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['selected_icon'] ); ?></span>
-							<span class="uael-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['selected_active_icon'] ); ?></span>
-						</span>
+					<div <?php echo $this->get_render_attribute_string($uael_faq_accordion.$key['_id']); ?>>
+						<div class="uael-accordion-title">
+									<?php echo $key['question'];?>
+							<span class="uael-accordion-icon uael-accordion-icon-<?php echo esc_attr( $settings['icon_align'] ); ?>" >
+								<span class="uael-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['selected_icon'] ); ?></span>
+								<span class="uael-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['selected_active_icon'] ); ?></span>
+							</span>
+						</div>
+						<div class="uael-accordion-content">
+							<?php echo $key['answer'];?>
+						</div>
 					</div>
-					<div class="uael-accordion-content">
-						<?php echo $key['answer'];?>
-					</div>
+				<?php } ?>
 				</div>
-			<?php } ?>
 			</div>
-		</div>
 			<?php
 			//schema logic
 			$object_data = array();
